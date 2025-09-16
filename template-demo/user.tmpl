@@ -1,0 +1,13 @@
+{{define "user-info"}}
+<div class="user-card">
+    <h3>{{.Name}}</h3>
+    <p>年龄: {{.Age}}</p>
+    <p>邮箱: {{.Email}}</p>
+    <p>状态: {{if .IsActive}}活跃{{else}}非活跃{{end}}</p>
+    {{if .Tags}}
+    <div class="tags">
+        {{range .Tags}}<span class="tag">{{.}}</span>{{end}}
+    </div>
+    {{end}}
+</div>
+{{end}}
