@@ -1,64 +1,38 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"math"
-	"os"
-	"strconv"
-	"strings"
+	"sort"
 )
 
 func main() {
-	sc := bufio.NewReader(os.Stdin)
-	line, _ := sc.ReadString('\n')
-
-	line = strings.TrimSpace(line)
-	params := strings.Split(line, " ")
-	n, _ := strconv.Atoi(params[0])
-	m, _ := strconv.Atoi(params[1])
-
-	arr := make([][]int, n)
-
-	for i, _ := range arr {
-		arr[i] = make([]int, m)
-		line, _ = sc.ReadString('\n')
-		line = strings.TrimSpace(line)
-		params = strings.Split(line, " ")
-
-		for j, v := range params {
-			arr[i][j], _ = strconv.Atoi(v)
-		}
+	s := "fsdf"
+	for i, v := range s {
+		fmt.Printf("%T %T", s[i], v)
 	}
+	rune
 
-	for i, _ := range arr {
-		for j, v := range arr[i] {
-			if 0 == j && 0 == i {
-				arr[i][j] = v
-			} else if 0 == i {
-				arr[i][j] = arr[i][j-1] + v
-			} else if 0 == j {
-				arr[i][j] = arr[i-1][j] + v
-			} else {
-				arr[i][j] = arr[i][j-1] + arr[i-1][j] - arr[i-1][j-1] + v
+	eraseOverlapIntervals([][]int{{1, 2}, {2, 3}, {3, 4}, {1, 3}})
+	return
+}
+
+func eraseOverlapIntervals(intervals [][]int) int {
+	sort.Slice(intervals, func(i, j int) bool {
+		return intervals[i][0] < intervals[j][0]
+	})
+
+	cur := intervals[0][1]
+	ans := 0
+
+	for i := 1; i < len(intervals); i++ {
+		if intervals[i][0] < cur {
+			ans++
+			if intervals[i][1] < cur {
+				cur = intervals[i][1]
 			}
+		} else {
+			cur = intervals[i][1]
 		}
 	}
-
-	ans := math.MaxInt64
-	for i := 1; i <= n-1; i++ {
-		tmp := int( math.Abs(float64(arr[n-1][m-1] - arr[i-1][m-1]- arr[i-1][m-1])))
-		if tmp < ans {
-			ans = tmp
-		}
-	}
-
-	for i := 1; i <= m-1; i++ {
-		tmp := int( math.Abs(float64(arr[n-1][m-1] - arr[n-1][i-1]- arr[n-1][i-1])))
-		if tmp < ans {
-			ans = tmp
-		}
-	}
-	fmt.Println(ans)
-
+	return ans
 }
