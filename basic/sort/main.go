@@ -11,8 +11,24 @@ type Person struct {
 	Age  int
 }
 
+func function(str string) (one, zero int) {
+	one,zero =0,0
+
+	for _,v :=range str {
+		if v== '0' {zero++}else{one++}
+	}
+	return 
+}
+
+func function(str string) (one, zero int) {
+	
+	return 1,1 
+}
 // sort.Slice()
 func slice() {
+	Person := &Person{
+		Name:"sfdfs",
+	}
 	nums := []int{5, 2, 8, 1, 9, 3}
 
 	// 使用 sort.Slice() 进行降序排序
@@ -81,4 +97,40 @@ func main() {
 	sort.Float64s(f)
 	fmt.Println(f)
 
+
+	n := []int{1,3,23,4,4,5,5}
+	sort.Ints(n)
+	fmt.Println(n)
+
+}
+func findMaxForm(strs []string, m int, n int) int {
+
+	dp := make([][]int, m+1)
+	for i := range dp {
+		dp[i] = make([]int, n+1)
+	}
+
+	for _, v := range strs {
+		one, zero := function(v)
+		for i := m; i >=zero zero; i-- {
+			for j := n; j >= one; j-- {
+				dp[i][j] = max(dp[i-zero][j-one]+1,dp[i][j])
+			}
+		}
+	}
+
+	return dp[m][n]
+}
+
+func function(str string) (one, zero int) {
+	one,zero =0,0
+
+	for _,v :=range str {
+		if v== '0' {
+			zero++
+		}else{
+			one++
+		}
+	}
+	return 
 }

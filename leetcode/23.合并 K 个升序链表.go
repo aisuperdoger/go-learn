@@ -14,17 +14,59 @@
  * }
  */
 
+
 type ListHeap []*ListNode
 
-func Len() int {
-	return len(ListHeap)
+func (h ListHeap) Len() int {
+    return len(ListHeap)
 }
 
-func 
+func (h ListHeap) Swap(i,j int) {
+  h[i],h[j] =   h[j],h[i] 
+}
 
-func mergeKLists(lists []*ListNode) *ListNode {
+func (h ListHeap) Less(i, j int) bool {
+    return h[i] < h[j]
+}
+
+func (h *ListHeap) Push(x any){
+    *h = append(*h,x.(*ListNode))
+}
+
+func (h *ListHeap) Pop() any{
+    old := *h
+    n := len(old)
+    x := old[n-1]
+    *h = old[0:n-1]
+    return x
+}
+
+
+func mergeKLists(lists []*ListNode) *ListNode{
+    h := &ListHeap{}
+    heap.Init(h)
     
+    for _,v := range lists {
+        if v!=nil {
+             heap.Push(h,v)
+        }
+    }
+    
+    dummy := &ListNode{}
+    cur := dummy
+    
+    for h.Len() > 0 {
+        tmp :=heap.Pop(h)
+        cur.Next = tmp
+        cur = cur.Next
+        if tmp.Next!=nil{
+            heap.Push(h,tmp.Next)
+        }
+    }
+    
+    return dummy.Next
 }
+
 // @lc code=end
 
 
